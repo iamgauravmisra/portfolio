@@ -1,0 +1,369 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Smooth scrolling */
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale up animation */
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Glow animation */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Gradient shift animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Apply animations to sections */
+section {
+  animation: fadeIn 1s ease-out;
+}
+
+/* Hero section animations */
+#home h1 {
+  animation: slideInLeft 1s ease-out;
+}
+
+#home p {
+  animation: slideInLeft 1.2s ease-out;
+}
+
+#home .flex.gap-4 {
+  animation: slideInLeft 1.4s ease-out;
+}
+
+/* Social icons hover effect */
+#home a {
+  transition: all 0.3s ease;
+}
+
+#home a:hover {
+  animation: float 1s ease-in-out infinite;
+}
+
+/* Navigation menu animations */
+nav button {
+  transition: all 0.3s ease;
+}
+
+nav button:hover {
+  transform: translateX(-5px);
+}
+
+/* Section titles animation */
+h2 {
+  animation: fadeIn 0.8s ease-out;
+  position: relative;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6b7280, #9ca3af);
+  transition: width 0.5s ease;
+}
+
+h2:hover::after {
+  width: 100px;
+}
+
+/* Card animations */
+.bg-slate-800\/50 {
+  animation: scaleUp 0.6s ease-out;
+  transition: all 0.3s ease;
+}
+
+.bg-slate-800\/50:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Project cards special effects */
+#projects .group {
+  animation: fadeIn 0.8s ease-out;
+  animation-fill-mode: both;
+}
+
+#projects .group:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+#projects .group:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+#projects .group:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Image hover effect */
+#projects img {
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+#projects .group:hover img {
+  filter: grayscale(0%) brightness(1.1);
+}
+
+/* Tech tags animation */
+.px-3.py-1.bg-slate-700 {
+  transition: all 0.3s ease;
+}
+
+.px-3.py-1.bg-slate-700:hover {
+  background-color: #4b5563;
+  transform: scale(1.1);
+}
+
+/* Skills section animations */
+#skills .grid > div {
+  animation: scaleUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+#skills .grid > div:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+#skills .grid > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+#skills .grid > div:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Skill items slide in */
+#skills li {
+  animation: slideInRight 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Button animations */
+button, a.inline-flex {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+button::before, a.inline-flex::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before, a.inline-flex:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Download button glow */
+#resume button {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Form input animations */
+input, textarea {
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.3);
+}
+
+/* Contact icons animation */
+#contact a {
+  transition: all 0.3s ease;
+}
+
+#contact a:hover {
+  animation: pulse 1s ease-in-out infinite;
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* Resume section stagger animation */
+#resume .space-y-6 > div {
+  animation: slideInLeft 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+#resume .space-y-6 > div:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+#resume .space-y-6 > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+#resume .space-y-6 > div:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Loading animation for images */
+img {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Text selection styling */
+::selection {
+  background-color: rgba(156, 163, 175, 0.3);
+  color: white;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Mobile menu animation */
+nav.translate-x-0 {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Footer animation */
+footer {
+  animation: fadeIn 1s ease-out;
+}
+
+/* Responsive animations - disable on mobile for performance */
+@media (max-width: 768px) {
+  * {
+    animation-duration: 0.5s !important;
+  }
+  
+  /* Disable complex animations on mobile */
+  h2::after {
+    display: none;
+  }
+  
+  button::before, a.inline-flex::before {
+    display: none;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
