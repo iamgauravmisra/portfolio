@@ -411,3 +411,36 @@ footer {
     transition-duration: 0.01ms !important;
   }
 }
+/* Mobile menu button - ensure it's always visible */
+#home button[class*="fixed"] {
+  position: fixed !important;
+  z-index: 200 !important;
+  background: rgba(0, 0, 0, 0.9) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Ensure no elements overlap the menu button */
+#home > * {
+  position: relative;
+  z-index: 1;
+}
+/* Force hamburger menu button to be visible on mobile */
+@media (max-width: 768px) {
+  /* Target the hamburger button specifically */
+  section#home button.md\:hidden {
+    position: fixed !important;
+    top: 1.5rem !important;
+    right: 1.5rem !important;
+    z-index: 9999 !important;
+    background: #000000 !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8) !important;
+    padding: 0.75rem !important;
+  }
+
+  /* Ensure the right side image doesn't overlap */
+  section#home > div:last-child {
+    position: relative;
+    z-index: 1;
+  }
+}
