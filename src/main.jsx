@@ -85,7 +85,7 @@ export default function Portfolio() {
     {
       degree: "Bachelor of Science in Computer Science",
       school: "Vindhya Institute of Technology and Science, Satna M.P.",
-      period: "2021 - 2025 (Expected)",
+      period: "2023 - 2027",
       description: "Relevant coursework: Data Structures, Algorithms, Web Development, Database Management, Software Engineering"
     }
   ];
