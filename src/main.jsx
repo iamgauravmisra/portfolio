@@ -104,7 +104,7 @@ export default function Portfolio() {
           </button>
 
           {/* Content */}
-          <div className="flex-1 flex flex-col justify-center max-w-md">
+          <div className="flex-1 flex flex-col justify-center max-w-md px-4 md:px-0">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
               Gaurav<br />Mishra
             </h1>
@@ -172,7 +172,7 @@ export default function Portfolio() {
           {/* Navigation Menu */}
           <nav className={`
             absolute right-0 top-0 h-full
-            flex flex-col justify-center gap-6 p-8 md:p-12
+            flex flex-col justify-center gap-8 p-12 md:p-12
             ${isMenuOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}
             transition-transform duration-300 ease-in-out
             bg-black/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none
@@ -291,7 +291,7 @@ export default function Portfolio() {
               <ul className="grid md:grid-cols-2 gap-4">
                 {certifications.map((cert, index) => (
                   <li key={index} className="flex items-center gap-3 text-slate-300">
-                    <span className="w-2 h-2 text-gray-400 rounded-full"></span>
+                    <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
                     {cert}
                   </li>
                 ))}
@@ -360,7 +360,7 @@ export default function Portfolio() {
                   <ul className="space-y-2">
                     {category.items.map((item, i) => (
                       <li key={i} className="text-slate-300 flex items-center gap-2">
-                        <span className="w-2 h-2 text-gray-400 rounded-full" />
+                        <span className="w-2 h-2 bg-gray-400 rounded-full" />
                         {item}
                       </li>
                     ))}

@@ -2,7 +2,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* Smooth scrolling */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -104,13 +111,15 @@ section {
   animation: fadeIn 1s ease-out;
 }
 
-/* Hero section animations */
+/* Hero section animations - Mobile optimized */
 #home h1 {
-  animation: slideInLeft 1s ease-out;
+  animation: slideInLeft 0.8s ease-out;
+  font-size: clamp(2.5rem, 8vw, 4rem);
 }
 
 #home p {
-  animation: slideInLeft 1.2s ease-out;
+  animation: slideInLeft 1s ease-out;
+  font-size: clamp(1rem, 3vw, 1.125rem);
 }
 
 #home .flex.gap-4 {
@@ -341,10 +350,16 @@ footer {
   animation: fadeIn 1s ease-out;
 }
 
-/* Responsive animations - disable on mobile for performance */
+/* Responsive animations - optimized for mobile */
 @media (max-width: 768px) {
+  /* Faster animations on mobile */
   * {
-    animation-duration: 0.5s !important;
+    animation-duration: 0.4s !important;
+  }
+  
+  /* Reduce motion effects */
+  section {
+    animation: fadeIn 0.5s ease-out;
   }
   
   /* Disable complex animations on mobile */
@@ -354,6 +369,35 @@ footer {
   
   button::before, a.inline-flex::before {
     display: none;
+  }
+  
+  /* Simpler hover effects */
+  #home a:hover {
+    animation: none;
+    transform: scale(1.1);
+  }
+  
+  #contact a:hover {
+    animation: none;
+    transform: scale(1.15);
+  }
+  
+  /* Prevent zoom issues on iOS */
+  input, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Better touch targets */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+  #home h1 {
+    font-size: 3.5rem;
   }
 }
 
