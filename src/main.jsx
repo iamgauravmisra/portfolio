@@ -97,11 +97,11 @@ export default function Portfolio() {
         <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8 md:p-16 flex flex-col justify-between relative">
           {/* Mobile Menu Toggle */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden absolute top-8 right-8 z-50 p-2 rounded-lg bg-white/10 backdrop-blur-sm"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+  onClick={() => setIsMenuOpen(!isMenuOpen)}
+  className="md:hidden fixed top-8 right-8 z-[100] p-3 rounded-lg bg-slate-800/90 backdrop-blur-md hover:bg-slate-700/90 transition-all"
+>
+  {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+</button>
 
           {/* Content */}
           <div className="flex-1 flex flex-col justify-center max-w-md px-4 md:px-0">
@@ -176,7 +176,7 @@ export default function Portfolio() {
             ${isMenuOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}
             transition-transform duration-300 ease-in-out
             bg-black/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none
-            w-64 md:w-auto z-40
+            w-64 md:w-auto z-50
           `}>
             {menuItems.map((item, index) => (
               <button
