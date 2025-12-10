@@ -90,8 +90,60 @@ export default function Portfolio() {
     }
   };
 
+  // Track scroll position to update active section
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'about', 'resume', 'projects', 'skills', 'contact'];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white">
+      {/* Desktop Navigation Bar */}
+      <nav className="hidden md:block fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-8 py-4">
+          <div className="flex justify-between items-center">
+            <button
+              onClick={() => scrollToSection('home')}
+              className="text-2xl font-bold hover:text-gray-300 transition-colors"
+            >
+              GM
+            </button>
+            <div className="flex gap-8">
+              {menuItems.map((item, index) => (
+                <button
+                  key={index}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`text-base font-medium hover:text-gray-300 transition-colors relative group ${
+                    activeSection === item.id ? 'text-white' : 'text-gray-400'
+                  }`}
+                >
+                  {item.name}
+                  <span className={`absolute left-0 -bottom-1 h-0.5 bg-white transition-all duration-300 ${
+                    activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}></span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </nav>
+
       {/* Landing Page / Hero Section */}
       <section id="home" className="min-h-screen flex flex-col md:flex-row relative">
         {/* Mobile Menu Toggle - Fixed position */}
@@ -103,7 +155,7 @@ export default function Portfolio() {
         </button>
 
         {/* Left Side - Content */}
-        <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8 md:p-16 flex flex-col justify-between relative min-h-screen">
+        <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8 md:p-16 flex flex-col justify-between relative min-h-screen md:pt-24">
           {/* Content */}
           <div className="flex-1 flex flex-col justify-center max-w-md px-4 md:px-0 pt-20 md:pt-0">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
@@ -153,21 +205,12 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Right Side - Navigation Only (Desktop) */}
-        <div className="hidden md:flex md:w-1/2 relative bg-gradient-to-br from-gray-800 via-gray-900 to-black items-center justify-center">
-          {/* Navigation Menu - Desktop centered */}
-          <nav className="flex flex-col gap-8">
-            {menuItems.map((item, index) => (
-              <button
-                key={index}
-                onClick={() => scrollToSection(item.id)}
-                className="text-white text-center text-2xl font-medium hover:text-gray-300 transition-colors relative group"
-              >
-                {item.name}
-                <span className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
-              </button>
-            ))}
-          </nav>
+        {/* Right Side - Decorative Space (Desktop) */}
+        <div className="hidden md:flex md:w-1/2 relative bg-gradient-to-br from-gray-800 via-gray-900 to-black items-center justify-center md:pt-24">
+          {/* Decorative content */}
+          <div className="text-center">
+            <div className="text-8xl font-bold text-white/5">GM</div>
+          </div>
         </div>
       </section>
 
