@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Menu, X, Github, Linkedin, Mail, ExternalLink, Code, Palette, Zap, Download, Briefcase, GraduationCap, Award, Instagram, Twitter } from 'lucide-react'
 import './style.css';
+
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -92,19 +93,19 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Landing Page / Hero Section */}
-      <section id="home" className="min-h-screen flex flex-col md:flex-row">
-        {/* Left Side - Content */}
-        <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8 md:p-16 flex flex-col justify-between relative">
-          {/* Mobile Menu Toggle */}
-          <button
-  onClick={() => setIsMenuOpen(!isMenuOpen)}
-  className="md:hidden fixed top-8 right-8 z-[100] p-3 rounded-lg bg-slate-800/90 backdrop-blur-md hover:bg-slate-700/90 transition-all"
->
-  {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-</button>
+      <section id="home" className="min-h-screen flex flex-col md:flex-row relative">
+        {/* Mobile Menu Toggle - Fixed position */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden fixed top-6 right-6 z-[200] p-3 rounded-lg bg-black border-2 border-white/30 hover:border-white/50 transition-all shadow-2xl"
+        >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
 
+        {/* Left Side - Content */}
+        <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8 md:p-16 flex flex-col justify-between relative min-h-screen">
           {/* Content */}
-          <div className="flex-1 flex flex-col justify-center max-w-md px-4 md:px-0">
+          <div className="flex-1 flex flex-col justify-center max-w-md px-4 md:px-0 pt-20 md:pt-0">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
               Gaurav<br />Mishra
             </h1>
@@ -147,58 +148,45 @@ export default function Portfolio() {
           </div>
 
           {/* Footer */}
-          <div className="mt-8 text-gray-500 text-sm">
+          <div className="mt-8 text-gray-500 text-sm px-4 md:px-0">
             © 2024 Gaurav Mishra. All rights reserved.
           </div>
         </div>
 
-        {/* Right Side - Image & Menu */}
-        <div className="w-full md:w-1/2 relative bg-gray-200 min-h-screen md:min-h-0">
-          {/* Background Image */}
-          <div className="absolute inset-0 bg-gray-800">
-            <img 
-              src="gaurav.JPG"
-              alt="Profile"
-              className="w-full h-full object-cover opacity-80"
-              style={{ filter: 'grayscale(100%)' }}
-              onError={(e) => {
-                e.target.style.display = 'none';
-                e.target.parentElement.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
-          </div>
-
-          {/* Navigation Menu */}
-          <nav className={`
-            absolute right-0 top-0 h-full
-            flex flex-col justify-center gap-8 p-12 md:p-12
-            ${isMenuOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}
-            transition-transform duration-300 ease-in-out
-            bg-black/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none
-            w-64 md:w-auto z-50
-          `}>
+        {/* Right Side - Navigation Only (Desktop) */}
+        <div className="hidden md:flex md:w-1/2 relative bg-gradient-to-br from-gray-800 via-gray-900 to-black items-center justify-center">
+          {/* Navigation Menu - Desktop centered */}
+          <nav className="flex flex-col gap-8">
             {menuItems.map((item, index) => (
               <button
                 key={index}
                 onClick={() => scrollToSection(item.id)}
-                className="text-white text-right text-lg md:text-xl font-medium hover:text-gray-300 transition-colors relative group"
+                className="text-white text-center text-2xl font-medium hover:text-gray-300 transition-colors relative group"
               >
                 {item.name}
-                <span className="absolute right-0 -right-2 top-1/2 -translate-y-1/2 w-0 h-0.5 bg-white group-hover:w-8 transition-all duration-300"></span>
+                <span className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
               </button>
             ))}
           </nav>
-
-          {/* Overlay for mobile menu */}
-          {isMenuOpen && (
-            <div
-              className="md:hidden absolute inset-0 bg-black/50 z-30"
-              onClick={() => setIsMenuOpen(false)}
-            ></div>
-          )}
         </div>
       </section>
+
+      {/* Mobile Navigation - Full Screen */}
+      {isMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-black/98 z-[90] flex items-center justify-center">
+          <nav className="flex flex-col gap-10 items-center">
+            {menuItems.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => scrollToSection(item.id)}
+                className="text-white text-3xl font-medium hover:text-gray-300 transition-colors"
+              >
+                {item.name}
+              </button>
+            ))}
+          </nav>
+        </div>
+      )}
 
       {/* About Section */}
       <section id="about" className="min-h-screen flex items-center justify-center px-4 py-20">
@@ -224,7 +212,7 @@ export default function Portfolio() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Resume</h2>
             <button
               onClick={() => window.open('Gaurav Mishra Resume.pdf', '_blank')}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transform hover:scale-105 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all"
             >
               <Download size={20} />
               Download Resume
@@ -241,7 +229,7 @@ export default function Portfolio() {
               {experience.map((job, index) => (
                 <div
                   key={index}
-                  className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-purple-500/10 transition-all"
+                  className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all"
                 >
                   <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
                     <div>
@@ -266,7 +254,7 @@ export default function Portfolio() {
               {education.map((edu, index) => (
                 <div
                   key={index}
-                  className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 hover:shadow-xl hover:shadow-purple-500/10 transition-all"
+                  className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all"
                 >
                   <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
                     <div>
@@ -309,7 +297,7 @@ export default function Portfolio() {
             {projects.map((project, index) => (
               <div
                 key={index}
-                className="group bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 hover:-translate-y-2"
+                className="group bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
               >
                 <div className="relative h-48 overflow-hidden">
                   {project.image ? (
@@ -333,7 +321,7 @@ export default function Portfolio() {
                       </span>
                     ))}
                   </div>
-                  <button className="flex items-center gap-2 text-gray-300 hover:text-purple-300 transition-colors">
+                  <button className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
                     View Project <ExternalLink size={16} />
                   </button>
                 </div>
@@ -353,7 +341,7 @@ export default function Portfolio() {
               return (
                 <div
                   key={index}
-                  className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 hover:shadow-xl hover:shadow-purple-500/10 transition-all"
+                  className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 hover:shadow-xl transition-all"
                 >
                   <Icon className="w-12 h-12 text-gray-300 mb-4" />
                   <h3 className="text-2xl font-bold mb-4">{category.name}</h3>
@@ -381,16 +369,16 @@ export default function Portfolio() {
           </p>
           <div className="flex justify-center gap-6 mb-12">
             <a
-              href="mailto:hello@example.com"
-              className="p-4 bg-slate-800 rounded-full hover:bg-purple-600 transition-all hover:scale-110"
+              href="mailto:gauravmishrawork@gmail.com"
+              className="p-4 bg-slate-800 rounded-full hover:bg-gray-700 transition-all hover:scale-110"
             >
               <Mail size={24} />
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/iamgauravmisra"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-slate-800 rounded-full hover:bg-purple-600 transition-all hover:scale-110"
+              className="p-4 bg-slate-800 rounded-full hover:bg-gray-700 transition-all hover:scale-110"
             >
               <Github size={24} />
             </a>
@@ -398,7 +386,7 @@ export default function Portfolio() {
               href="https://www.linkedin.com/in/gaurav-mishra-8aa936288/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-slate-800 rounded-full hover:bg-purple-600 transition-all hover:scale-110"
+              className="p-4 bg-slate-800 rounded-full hover:bg-gray-700 transition-all hover:scale-110"
             >
               <Linkedin size={24} />
             </a>
@@ -408,24 +396,24 @@ export default function Portfolio() {
               <input
                 type="text"
                 placeholder="Your Name"
-                className="w-full px-6 py-4 bg-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                className="w-full px-6 py-4 bg-slate-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all text-base"
               />
               <input
                 type="email"
                 placeholder="Your Email"
-                className="w-full px-6 py-4 bg-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                className="w-full px-6 py-4 bg-slate-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all text-base"
               />
               <textarea
                 placeholder="Your Message"
                 rows="5"
-                className="w-full px-6 py-4 bg-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all resize-none"
+                className="w-full px-6 py-4 bg-slate-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all resize-none text-base"
               />
               <button
                 onClick={(e) => {
                   e.preventDefault();
                   alert('Message sent! (Demo only)');
                 }}
-                className="w-full px-8 py-4 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transform hover:scale-105 transition-all"
+                className="w-full px-8 py-4 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all"
               >
                 Send Message
               </button>
@@ -441,6 +429,7 @@ export default function Portfolio() {
     </div>
   );
 }
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Portfolio />
