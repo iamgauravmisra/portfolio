@@ -308,20 +308,20 @@ export default function Portfolio() {
 
           {/* Experience */}
           <div className="mb-12 md:mb-16">
-            <div className="flex items-center gap-3 mb-6 md:mb-8">
-              <Briefcase className="w-6 h-6 md:w-8 md:h-8 text-gray-300" />
-              <h3 className="text-2xl md:text-3xl font-bold">Experience & Activities</h3>
+            <div className="flex items-center gap-3 mb-6 md:mb-8 px-2">
+              <Briefcase className="w-6 h-6 md:w-8 md:h-8 text-gray-300 flex-shrink-0" />
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-bold">Experience & Activities</h3>
             </div>
             <div className="space-y-4 md:space-y-6">
               {experience.map((job, index) => (
                 <div
                   key={index}
-                  className="bg-slate-800/50 backdrop-blur-sm rounded-xl md:rounded-2xl p-5 md:p-8 hover:shadow-xl transition-all duration-500 hover:scale-[1.02] animate-fadeInUp"
+                  className="bg-slate-800/50 backdrop-blur-sm rounded-xl md:rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all duration-500 hover:scale-[1.02] animate-fadeInUp"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="flex flex-col gap-2 mb-3">
-                    <h4 className="text-xl md:text-2xl font-bold text-gray-200">{job.title}</h4>
-                    <p className="text-base md:text-xl text-slate-300">{job.company}</p>
+                  <div className="flex flex-col gap-2 mb-4">
+                    <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-200 leading-tight">{job.title}</h4>
+                    <p className="text-base md:text-lg lg:text-xl text-slate-300">{job.company}</p>
                     <span className="text-sm md:text-base text-slate-400">{job.period}</span>
                   </div>
                   <p className="text-sm md:text-base text-slate-300 leading-relaxed">{job.description}</p>
@@ -332,20 +332,20 @@ export default function Portfolio() {
 
           {/* Education */}
           <div className="mb-12 md:mb-16">
-            <div className="flex items-center gap-3 mb-6 md:mb-8">
-              <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-gray-300" />
-              <h3 className="text-2xl md:text-3xl font-bold">Education</h3>
+            <div className="flex items-center gap-3 mb-6 md:mb-8 px-2">
+              <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-gray-300 flex-shrink-0" />
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-bold">Education</h3>
             </div>
             <div className="space-y-4 md:space-y-6">
               {education.map((edu, index) => (
                 <div
                   key={index}
-                  className="bg-slate-800/50 backdrop-blur-sm rounded-xl md:rounded-2xl p-5 md:p-8 hover:shadow-xl transition-all duration-500 hover:scale-[1.02] animate-fadeInUp"
+                  className="bg-slate-800/50 backdrop-blur-sm rounded-xl md:rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all duration-500 hover:scale-[1.02] animate-fadeInUp"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="flex flex-col gap-2 mb-3">
-                    <h4 className="text-xl md:text-2xl font-bold text-gray-200">{edu.degree}</h4>
-                    <p className="text-base md:text-xl text-slate-300">{edu.school}</p>
+                  <div className="flex flex-col gap-2 mb-4">
+                    <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-200 leading-tight">{edu.degree}</h4>
+                    <p className="text-base md:text-lg lg:text-xl text-slate-300">{edu.school}</p>
                     <span className="text-sm md:text-base text-slate-400">{edu.period}</span>
                   </div>
                   <p className="text-sm md:text-base text-slate-300 leading-relaxed">{edu.description}</p>
@@ -356,18 +356,18 @@ export default function Portfolio() {
 
           {/* Certifications */}
           <div>
-            <div className="flex items-center gap-3 mb-6 md:mb-8">
-              <Award className="w-6 h-6 md:w-8 md:h-8 text-gray-300" />
-              <h3 className="text-2xl md:text-3xl font-bold">Certifications</h3>
+            <div className="flex items-center gap-3 mb-6 md:mb-8 px-2">
+              <Award className="w-6 h-6 md:w-8 md:h-8 text-gray-300 flex-shrink-0" />
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-bold">Certifications</h3>
             </div>
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl md:rounded-2xl p-5 md:p-8 hover:shadow-xl transition-all duration-300">
-              <ul className="grid gap-3 md:gap-4">
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl md:rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all duration-300">
+              <ul className="grid gap-4 md:gap-4">
                 {certifications.map((cert, index) => (
                   <li key={index} className="flex items-start gap-3 text-sm md:text-base text-slate-300 hover:text-white transition-colors duration-300 animate-fadeInUp"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
-                    <span className="flex-1">{cert}</span>
+                    <span className="flex-1 leading-relaxed">{cert}</span>
                   </li>
                 ))}
               </ul>
