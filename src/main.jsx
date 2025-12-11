@@ -298,7 +298,7 @@ export default function Portfolio() {
           <div className="text-center mb-10 md:mb-12">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Resume</h2>
             <button
-              onClick={() => alert('Download functionality - add your PDF link here')}
+              onClick={() => window.open('Gaurav Mishra Resume.pdf', '_blank')}
               className="inline-flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-full font-semibold hover:shadow-lg transform hover:scale-110 transition-all duration-300"
             >
               <Download size={20} className="animate-bounce" />
