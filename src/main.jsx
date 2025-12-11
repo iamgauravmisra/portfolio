@@ -29,6 +29,7 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isVisible, setIsVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const projects = [
     {
@@ -113,14 +114,13 @@ export default function Portfolio() {
     }
   };
 
-  // Hero animation on mount
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  // Track scroll position to update active section
   useEffect(() => {
     const handleScroll = () => {
+      // Track active section
       const sections = ['home', 'about', 'resume', 'projects', 'skills', 'contact'];
       const scrollPosition = window.scrollY + 100;
 
@@ -134,31 +134,30 @@ export default function Portfolio() {
           }
         }
       }
+
+      // Calculate scroll progress for progress bar
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrolled = window.scrollY;
+      const progress = (scrolled / (documentHeight - windowHeight)) * 100;
+      setScrollProgress(progress);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Animated Section Component
-  const AnimatedSection = ({ children, id, className = "" }) => {
-    const [ref, isInView] = useInView();
-    return (
-      <section
-        id={id}
-        ref={ref}
-        className={`${className} transition-all duration-1000 ${
-          isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
-      >
-        {children}
-      </section>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Desktop Navigation Bar with slide-down animation */}
+      {/* Scroll Progress Bar */}
+      <div className="fixed top-0 left-0 right-0 h-1 bg-gray-800 z-[100]">
+        <div 
+          className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-150"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
+      {/* Desktop Navigation Bar */}
       <nav className={`hidden md:block fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10 transition-all duration-500 ${
         isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
       }`}>
@@ -166,9 +165,11 @@ export default function Portfolio() {
           <div className="flex justify-between items-center">
             <button
               onClick={() => scrollToSection('home')}
-              className="text-2xl font-bold hover:text-gray-300 transition-all duration-300 hover:scale-110"
+              className="flex items-center gap-2 hover:opacity-80 transition-all duration-300 hover:scale-110"
             >
-              GM
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-lg flex items-center justify-center font-bold text-white shadow-lg">
+                GM
+              </div>
             </button>
             <div className="flex gap-8">
               {menuItems.map((item, index) => (
@@ -178,7 +179,6 @@ export default function Portfolio() {
                   className={`text-base font-medium hover:text-gray-300 transition-all duration-300 relative group ${
                     activeSection === item.id ? 'text-white' : 'text-gray-400'
                   }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   {item.name}
                   <span className={`absolute left-0 -bottom-1 h-0.5 bg-white transition-all duration-300 ${
@@ -191,9 +191,8 @@ export default function Portfolio() {
         </div>
       </nav>
 
-      {/* Landing Page / Hero Section with fade-in animations */}
+      {/* Hero Section */}
       <section id="home" className="min-h-screen flex flex-col md:flex-row relative">
-        {/* Mobile Menu Toggle */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="md:hidden fixed top-6 right-6 z-[200] p-3 rounded-lg bg-black border-2 border-white/30 hover:border-white/50 transition-all shadow-2xl hover:scale-110 duration-300"
@@ -201,7 +200,6 @@ export default function Portfolio() {
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Left Side - Content */}
         <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8 md:p-16 flex flex-col justify-between relative min-h-screen md:pt-24">
           <div className="flex-1 flex flex-col justify-center max-w-md px-4 md:px-0 pt-20 md:pt-0">
             <h1 className={`text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight transition-all duration-1000 ${
@@ -220,7 +218,6 @@ export default function Portfolio() {
               problems. Welcome to my world.
             </p>
 
-            {/* Social Icons with staggered animation */}
             <div className="flex gap-4">
               {[
                 { href: "https://github.com/iamgauravmisra", icon: Github },
@@ -250,28 +247,26 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Right Side - Decorative Space */}
         <div className="hidden md:flex md:w-1/2 relative bg-gradient-to-br from-gray-800 via-gray-900 to-black items-center justify-center md:pt-24">
-          <div className={`text-center transition-all duration-1000 delay-500 ${
+          <div className={`transition-all duration-1000 delay-500 ${
             isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
           }`}>
-            <div className="text-8xl font-bold text-white/5 animate-pulse">GM</div>
+            <div className="w-64 h-64 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl flex items-center justify-center font-bold text-white text-8xl shadow-2xl animate-float">
+              GM
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Mobile Navigation with fade animation */}
+      {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-black/98 z-[90] flex items-center justify-center animate-fadeIn">
+        <div className="md:hidden fixed inset-0 bg-black/98 z-[90] flex items-center justify-center">
           <nav className="flex flex-col gap-10 items-center">
             {menuItems.map((item, index) => (
               <button
                 key={index}
                 onClick={() => scrollToSection(item.id)}
                 className="text-white text-3xl font-medium hover:text-gray-300 transition-all duration-300 hover:scale-110"
-                style={{ 
-                  animation: `slideIn 0.5s ease-out ${index * 100}ms both`
-                }}
               >
                 {item.name}
               </button>
@@ -280,8 +275,8 @@ export default function Portfolio() {
         </div>
       )}
 
-      {/* About Section with lazy load animation */}
-      <AnimatedSection id="about" className="min-h-screen flex items-center justify-center px-4 py-20">
+      {/* About Section */}
+      <section id="about" className="min-h-screen flex items-center justify-center px-4 py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">About Me</h2>
           <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02]">
@@ -295,15 +290,15 @@ export default function Portfolio() {
             </p>
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
-      {/* Resume Section with lazy load */}
-      <AnimatedSection id="resume" className="min-h-screen flex items-center justify-center px-4 py-20">
+      {/* Resume Section */}
+      <section id="resume" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <div className="max-w-6xl mx-auto w-full">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Resume</h2>
+          <div className="text-center mb-10 md:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Resume</h2>
             <button
-              onClick={() => window.open('Gaurav Mishra Resume.pdf', '_blank')}
+              onClick={() => alert('Download functionality - add your PDF link here')}
               className="inline-flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-full font-semibold hover:shadow-lg transform hover:scale-110 transition-all duration-300"
             >
               <Download size={20} className="animate-bounce" />
@@ -311,155 +306,127 @@ export default function Portfolio() {
             </button>
           </div>
 
-          {/* Experience with staggered animations */}
-          <div className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <Briefcase className="w-8 h-8 text-gray-300" />
-              <h3 className="text-3xl font-bold">Experience & Activities</h3>
+          {/* Experience */}
+          <div className="mb-12 md:mb-16">
+            <div className="flex items-center gap-3 mb-6 md:mb-8">
+              <Briefcase className="w-6 h-6 md:w-8 md:h-8 text-gray-300" />
+              <h3 className="text-2xl md:text-3xl font-bold">Experience & Activities</h3>
             </div>
-            <div className="space-y-6">
-              {experience.map((job, index) => {
-                const [ref, isInView] = useInView();
-                return (
-                  <div
-                    key={index}
-                    ref={ref}
-                    className={`bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all duration-500 hover:scale-[1.02] ${
-                      isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
-                    }`}
-                    style={{ transitionDelay: `${index * 150}ms` }}
-                  >
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
-                      <div>
-                        <h4 className="text-2xl font-bold text-gray-300 mb-1">{job.title}</h4>
-                        <p className="text-xl text-slate-300">{job.company}</p>
-                      </div>
-                      <span className="text-slate-400 mt-2 md:mt-0">{job.period}</span>
-                    </div>
-                    <p className="text-slate-300 leading-relaxed">{job.description}</p>
+            <div className="space-y-4 md:space-y-6">
+              {experience.map((job, index) => (
+                <div
+                  key={index}
+                  className="bg-slate-800/50 backdrop-blur-sm rounded-xl md:rounded-2xl p-5 md:p-8 hover:shadow-xl transition-all duration-500 hover:scale-[1.02] animate-fadeInUp"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="flex flex-col gap-2 mb-3">
+                    <h4 className="text-xl md:text-2xl font-bold text-gray-200">{job.title}</h4>
+                    <p className="text-base md:text-xl text-slate-300">{job.company}</p>
+                    <span className="text-sm md:text-base text-slate-400">{job.period}</span>
                   </div>
-                );
-              })}
+                  <p className="text-sm md:text-base text-slate-300 leading-relaxed">{job.description}</p>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Education */}
-          <div className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <GraduationCap className="w-8 h-8 text-gray-300" />
-              <h3 className="text-3xl font-bold">Education</h3>
+          <div className="mb-12 md:mb-16">
+            <div className="flex items-center gap-3 mb-6 md:mb-8">
+              <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-gray-300" />
+              <h3 className="text-2xl md:text-3xl font-bold">Education</h3>
             </div>
-            <div className="space-y-6">
-              {education.map((edu, index) => {
-                const [ref, isInView] = useInView();
-                return (
-                  <div
-                    key={index}
-                    ref={ref}
-                    className={`bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all duration-500 hover:scale-[1.02] ${
-                      isInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
-                    }`}
-                  >
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
-                      <div>
-                        <h4 className="text-2xl font-bold text-gray-300 mb-1">{edu.degree}</h4>
-                        <p className="text-xl text-slate-300">{edu.school}</p>
-                      </div>
-                      <span className="text-slate-400 mt-2 md:mt-0">{edu.period}</span>
-                    </div>
-                    <p className="text-slate-300 leading-relaxed">{edu.description}</p>
+            <div className="space-y-4 md:space-y-6">
+              {education.map((edu, index) => (
+                <div
+                  key={index}
+                  className="bg-slate-800/50 backdrop-blur-sm rounded-xl md:rounded-2xl p-5 md:p-8 hover:shadow-xl transition-all duration-500 hover:scale-[1.02] animate-fadeInUp"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="flex flex-col gap-2 mb-3">
+                    <h4 className="text-xl md:text-2xl font-bold text-gray-200">{edu.degree}</h4>
+                    <p className="text-base md:text-xl text-slate-300">{edu.school}</p>
+                    <span className="text-sm md:text-base text-slate-400">{edu.period}</span>
                   </div>
-                );
-              })}
+                  <p className="text-sm md:text-base text-slate-300 leading-relaxed">{edu.description}</p>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Certifications */}
           <div>
-            <div className="flex items-center gap-3 mb-8">
-              <Award className="w-8 h-8 text-gray-300" />
-              <h3 className="text-3xl font-bold">Certifications</h3>
+            <div className="flex items-center gap-3 mb-6 md:mb-8">
+              <Award className="w-6 h-6 md:w-8 md:h-8 text-gray-300" />
+              <h3 className="text-2xl md:text-3xl font-bold">Certifications</h3>
             </div>
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 hover:shadow-xl transition-all duration-300">
-              <ul className="grid md:grid-cols-2 gap-4">
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl md:rounded-2xl p-5 md:p-8 hover:shadow-xl transition-all duration-300">
+              <ul className="grid gap-3 md:gap-4">
                 {certifications.map((cert, index) => (
-                  <li key={index} className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors duration-300">
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></span>
-                    {cert}
+                  <li key={index} className="flex items-start gap-3 text-sm md:text-base text-slate-300 hover:text-white transition-colors duration-300 animate-fadeInUp"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 flex-shrink-0 animate-pulse"></span>
+                    <span className="flex-1">{cert}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
-      {/* Projects Section with card animations */}
-      <AnimatedSection id="projects" className="min-h-screen flex items-center justify-center px-4 py-20">
+      {/* Projects Section */}
+      <section id="projects" className="min-h-screen flex items-center justify-center px-4 py-20">
         <div className="max-w-6xl mx-auto w-full">
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">Featured Projects</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => {
-              const [ref, isInView] = useInView();
-              return (
-                <div
-                  key={index}
-                  ref={ref}
-                  className={`group bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 ${
-                    isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
-                  }`}
-                  style={{ transitionDelay: `${index * 150}ms` }}
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    {project.image ? (
-                      <img 
-                        src={project.image} 
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className={`h-full bg-gradient-to-br ${project.color}`}></div>
-                    )}
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all duration-300" />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-2xl font-bold mb-3 group-hover:text-gray-300 transition-colors duration-300">{project.title}</h3>
-                    <p className="text-slate-400 mb-4">{project.description}</p>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tech.map((tech, i) => (
-                        <span key={i} className="px-3 py-1 bg-slate-700 rounded-full text-sm hover:bg-slate-600 transition-colors duration-300">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                    <button className="flex items-center gap-2 text-gray-300 hover:text-white transition-all duration-300 hover:gap-3">
-                      View Project <ExternalLink size={16} />
-                    </button>
-                  </div>
+            {projects.map((project, index) => (
+              <div
+                key={index}
+                className="group bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 animate-fadeInUp"
+                style={{ animationDelay: `${index * 150}ms` }}
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all duration-300" />
                 </div>
-              );
-            })}
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold mb-3 group-hover:text-gray-300 transition-colors duration-300">{project.title}</h3>
+                  <p className="text-slate-400 mb-4">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tech.map((tech, i) => (
+                      <span key={i} className="px-3 py-1 bg-slate-700 rounded-full text-sm hover:bg-slate-600 transition-colors duration-300">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <button className="flex items-center gap-2 text-gray-300 hover:text-white transition-all duration-300 hover:gap-3">
+                    View Project <ExternalLink size={16} />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
-      {/* Skills Section with icon animations */}
-      <AnimatedSection id="skills" className="min-h-screen flex items-center justify-center px-4 py-20">
+      {/* Skills Section */}
+      <section id="skills" className="min-h-screen flex items-center justify-center px-4 py-20">
         <div className="max-w-6xl mx-auto w-full">
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">Skills & Expertise</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {skills.map((category, index) => {
               const Icon = category.icon;
-              const [ref, isInView] = useInView();
               return (
                 <div
                   key={index}
-                  ref={ref}
-                  className={`bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 hover:shadow-xl transition-all duration-500 hover:scale-105 ${
-                    isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  }`}
-                  style={{ transitionDelay: `${index * 150}ms` }}
+                  className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 hover:shadow-xl transition-all duration-500 hover:scale-105 animate-fadeInUp"
+                  style={{ animationDelay: `${index * 150}ms` }}
                 >
                   <Icon className="w-12 h-12 text-gray-300 mb-4 hover:scale-125 transition-transform duration-300" />
                   <h3 className="text-2xl font-bold mb-4">{category.name}</h3>
@@ -476,10 +443,10 @@ export default function Portfolio() {
             })}
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
-      {/* Contact Section with form animations */}
-      <AnimatedSection id="contact" className="min-h-screen flex items-center justify-center px-4 py-20">
+      {/* Contact Section */}
+      <section id="contact" className="min-h-screen flex items-center justify-center px-4 py-20">
         <div className="max-w-4xl mx-auto w-full text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">Let's Work Together</h2>
           <p className="text-xl text-slate-300 mb-12">
@@ -531,7 +498,7 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
       {/* Footer */}
       <footer className="py-8 text-center text-slate-400 border-t border-slate-800">
@@ -539,19 +506,10 @@ export default function Portfolio() {
       </footer>
 
       <style jsx>{`
-        @keyframes fadeIn {
+        @keyframes fadeInUp {
           from {
             opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
           }
           to {
             opacity: 1;
@@ -559,8 +517,48 @@ export default function Portfolio() {
           }
         }
 
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
+        .animate-fadeInUp {
+          animation: fadeInUp 0.6s ease-out forwards;
+          opacity: 0;
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+
+        .animate-pulse {
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        .animate-bounce {
+          animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(2deg);
+          }
+        }
+
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
         }
       `}</style>
     </div>
