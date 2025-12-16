@@ -37,7 +37,8 @@ export default function Portfolio() {
       description: "Real-time multiplayer chess game with matchmaking, move validation, and game history tracking",
       tech: ["React", "Socket.io", "Node.js", "Chess.js"],
       color: "from-blue-500 to-purple-600",
-      image: "https://images.unsplash.com/photo-1586165368502-1bad197a6461?w=800&h=600&fit=crop"
+      image: "https://images.unsplash.com/photo-1586165368502-1bad197a6461?w=800&h=600&fit=crop",
+      link: "https://minorproject-chessmaster.vercel.app/"
     },
     {
       title: "E-Commerce Platform",
